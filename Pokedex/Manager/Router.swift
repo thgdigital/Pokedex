@@ -11,12 +11,13 @@ import Alamofire
 enum Router: URLRequestConvertible {
     case getPokemos
     case readPokemon(idPokemon: Int)
+    case paginate(parameters: [String: String])
     
     static let baseURLString = "https://pokeapi.co/api/v2/"
 
     var method: HTTPMethod {
         switch self {
-        case .getPokemos, .readPokemon:
+        case .getPokemos, .readPokemon, .paginate:
             return .get
         }
     }
@@ -27,6 +28,8 @@ enum Router: URLRequestConvertible {
             return "/pokemon"
         case .readPokemon(let idPokemon):
             return "/pokemon/\(idPokemon)"
+        case .paginate:
+            return "/pokemon"
         }
     }
 
@@ -35,6 +38,13 @@ enum Router: URLRequestConvertible {
         let url = try Router.baseURLString.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(path))
         urlRequest.httpMethod = method.rawValue
+        
+        switch self {
+        case  let .paginate(parameters):
+              urlRequest = try URLEncodedFormParameterEncoder().encode(parameters, into: urlRequest)
+        default:
+            break
+        }
         return urlRequest
     }
 }

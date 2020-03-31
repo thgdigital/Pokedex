@@ -33,6 +33,22 @@ class PokedexManager: NSObject {
         }
         
     }
+    func paginate(offset: String, limit: String, completionHandler: @escaping  (Result<HomeModel, AFError>)-> Void) {
+        peformRequest(route: .paginate(parameters: ["offset": offset, "limit": limit]) ) { response in
+            switch response.result {
+                
+            case .success:
+                
+                guard let data = response.data, let homeModel: HomeModel = self.decodeParse(jsonData: data) else {
+                    return
+                }
+                completionHandler(.success(homeModel))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
     func decodeParse<T: Codable>(jsonData: Data) -> T? {
         do {
             let decoder = JSONDecoder()
