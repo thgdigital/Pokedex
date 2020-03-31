@@ -36,5 +36,13 @@ class HomeInteractor: HomeInteractorInput {
         }
     }
     
+    func paginate() {
+        guard let nextPage = home?.next, nextPage.isEmpty else {
+            output?.finish()
+            return
+        }
+        
+    }
+    
     
 }

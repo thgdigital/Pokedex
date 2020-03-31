@@ -11,6 +11,10 @@ import Foundation
 
 class HomePresenter: HomePresenterInput {
     
+    var finishPagination: Bool = false
+    
+    var items: [HomePokemonItem] = [HomePokemonItem]()
+    
     weak var output: HomePresenterOuput?
     
     let interactor: HomeInteractorInput
@@ -28,7 +32,22 @@ class HomePresenter: HomePresenterInput {
     }
     
     func paginate() {
+        interactor.paginate()
+    }
+    
+    func didSelected(with index: Int) {
         
+    }
+    
+    func finish() {
+        items = filterLoading()
+        finishPagination = true
+        output?.fetched(paginate: items)
+    }
+    
+    func filterLoading() -> [HomePokemonItem] {
+        items = items.filter({ !($0 is HomePokemonItemLoading) })
+        return items
     }
 }
 
@@ -39,6 +58,8 @@ extension HomePresenter: HomeInteractorOutput {
     }
     
     func fetched(results: [PokemonHomeEntity]) {
-        output?.fetched(items: results.map({ HomePokemonItemMapper.mapping(entity: $0) }))
+        items = results.map({ HomePokemonItemMapper.mapping(entity: $0) })
+        items.append(contentsOf: HomePokemonItemMapper.appendLoading())
+        output?.fetched(items: items)
     }
 }

@@ -17,4 +17,13 @@ class HomePokemonItemMapper {
         item.url = URL(string: entity.url)
         return item
     }
+    
+    static func appendLoading() -> [HomePokemonItemLoading] {
+        var placeholders = [HomePokemonItemLoading]()
+        for _ in 1...3 {
+            placeholders.append(HomePokemonItemLoading())
+        }
+        
+        return placeholders
+    }
 }

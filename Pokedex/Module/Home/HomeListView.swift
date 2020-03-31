@@ -17,7 +17,7 @@ class HomeListView: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.updateView()
-       setupCollectionView()
+        setupCollectionView()
     }
     
     func setupCollectionView() {
@@ -27,8 +27,10 @@ class HomeListView: UICollectionViewController {
         collectionView.dataSource = self
         let nibName = UINib(nibName: "HomePokemonCell", bundle: nil)
         collectionView.register(nibName, forCellWithReuseIdentifier: HomePokemonCell.identifier)
+        let nibNameLoadingCell = UINib(nibName: "LoadingCell", bundle: nil)
+        collectionView.register(nibNameLoadingCell, forCellWithReuseIdentifier: LoadingCell.identifier)
     }
-
+    
 }
 
 extension HomeListView:  UICollectionViewDelegateFlowLayout {
@@ -38,9 +40,18 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePokemonCell.identifier, for: indexPath) as! HomePokemonCell
-        cell.populate(item: items[indexPath.row])
-        return cell
+        
+        if let _ = items[indexPath.row] as? HomePokemonItemLoading {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingCell.identifier, for: indexPath) as! LoadingCell
+            
+            return cell
+            
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePokemonCell.identifier, for: indexPath) as! HomePokemonCell
+            cell.populate(item: items[indexPath.row])
+            return cell
+        }
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (UIScreen.main.bounds.width / 3) - 5, height: 140)
@@ -59,9 +70,16 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        presenter.didSelected(with: indexPath.row)
     }
     
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if cell is LoadingCell, !presenter.finishPagination {
+            presenter.paginate()
+        }
+        
+        debugPrint(cell)
+    }
 }
 
 extension HomeListView: HomePresenterOuput {
@@ -73,6 +91,10 @@ extension HomeListView: HomePresenterOuput {
     func fetched(items: [HomePokemonItem]) {
         self.items.append(contentsOf: items)
         collectionView.reloadData()
+    }
+    
+    func fetched(paginate: [HomePokemonItem]) {
+        
     }
     
     
