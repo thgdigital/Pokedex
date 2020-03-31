@@ -31,6 +31,7 @@ protocol HomeInteractorInput {
 
 protocol HomeInteractorOutput: class {
     func fetched(results: [PokemonHomeEntity])
+    func fetched(paginate: [PokemonHomeEntity])
     func fetchError(width error: Error)
     func finish()
 }

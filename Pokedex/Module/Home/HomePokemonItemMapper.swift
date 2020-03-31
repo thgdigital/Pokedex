@@ -18,9 +18,9 @@ class HomePokemonItemMapper {
         return item
     }
     
-    static func appendLoading() -> [HomePokemonItemLoading] {
+    static func appendLoading(with number: Int) -> [HomePokemonItemLoading] {
         var placeholders = [HomePokemonItemLoading]()
-        for _ in 1...3 {
+        for _ in 1...number {
             placeholders.append(HomePokemonItemLoading())
         }
         

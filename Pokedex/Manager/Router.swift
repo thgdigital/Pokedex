@@ -40,7 +40,7 @@ enum Router: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         
         switch self {
-        case  let .paginate(parameters):
+        case let .paginate(parameters):
               urlRequest = try URLEncodedFormParameterEncoder().encode(parameters, into: urlRequest)
         default:
             break

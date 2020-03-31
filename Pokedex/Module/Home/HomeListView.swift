@@ -41,7 +41,7 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if let _ = items[indexPath.row] as? HomePokemonItemLoading {
+        if items[indexPath.row] is HomePokemonItemLoading {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingCell.identifier, for: indexPath) as! LoadingCell
             
             return cell
@@ -49,11 +49,17 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePokemonCell.identifier, for: indexPath) as! HomePokemonCell
             cell.populate(item: items[indexPath.row])
+            cell.backgroundColor = .white
+            cell.shadowDecorate()
             return cell
         }
         
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if items[indexPath.row] is HomePokemonItemLoading, presenter.finishPagination  {
+            return .zero
+        }
+        
         return CGSize(width: (UIScreen.main.bounds.width / 3) - 5, height: 140)
     }
     
@@ -77,8 +83,6 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
         if cell is LoadingCell, !presenter.finishPagination {
             presenter.paginate()
         }
-        
-        debugPrint(cell)
     }
 }
 
@@ -94,7 +98,13 @@ extension HomeListView: HomePresenterOuput {
     }
     
     func fetched(paginate: [HomePokemonItem]) {
-        
+        self.items = paginate
+        collectionView.reloadItemsInSection(sectionIndex: 0, newCount: self.items.count) {
+            let indexPathsForVisibleItems = self.collectionView.indexPathsForVisibleItems
+            if !self.presenter.finishPagination {
+                self.collectionView.reloadItems(at: indexPathsForVisibleItems)
+            }
+        }
     }
     
     

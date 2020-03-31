@@ -59,7 +59,19 @@ extension HomePresenter: HomeInteractorOutput {
     
     func fetched(results: [PokemonHomeEntity]) {
         items = results.map({ HomePokemonItemMapper.mapping(entity: $0) })
-        items.append(contentsOf: HomePokemonItemMapper.appendLoading())
+        items.append(contentsOf: HomePokemonItemMapper.appendLoading(with: 3))
         output?.fetched(items: items)
+    }
+    
+    func fetched(paginate: [PokemonHomeEntity]) {
+        items = filterLoading()
+        items.append(contentsOf: paginate.map({ HomePokemonItemMapper.mapping(entity: $0) }))
+        
+        
+         if let homeCount = self.interactor.home?.count, (homeCount % items.count) != 0 {
+            let appendLoading = HomePokemonItemMapper.appendLoading(with: 3)
+           items.append(contentsOf:appendLoading)
+        }
+        output?.fetched(paginate: items)
     }
 }

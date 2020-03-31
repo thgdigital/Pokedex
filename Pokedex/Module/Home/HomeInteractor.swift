@@ -14,7 +14,7 @@ class HomeInteractor: HomeInteractorInput {
     weak var output: HomeInteractorOutput?
     
     var shoudPagination: Bool = true
-
+    
     let manager: PokedexManager
     
     var home: HomeEntity?
@@ -57,9 +57,13 @@ class HomeInteractor: HomeInteractorInput {
                     self.shoudPagination = true
                     switch result{
                     case .success(let homeModel):
-                        print(homeModel)
+                        self.home = HomeEntityMapper.mappingHome(model: homeModel)
+                        guard let results = self.home?.results else {
+                            return
+                        }
+                        self.output?.fetched(paginate: results)
                     case .failure(let error):
-                        print(error)
+                        self.output?.fetchError(width: error)
                     }
                 }
             }

@@ -19,7 +19,7 @@ class HomeEntityMapper {
         entity.next = model.next ?? ""
         entity.previous = model.previous ?? ""
         entity.results = model.results.enumerated().map({mappingPokemonHome(pokemon: $0.element, index: $0.offset) })
-        lastIndex = entity.results.count
+        lastIndex = lastIndex + entity.results.count
         return entity
     }
     
