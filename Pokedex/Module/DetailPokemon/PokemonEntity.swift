@@ -22,11 +22,11 @@ class PokemonEntityMapper {
         sprites.append(model.sprites.frontDefault)
         sprites.append(model.sprites.backDefault)
         sprites.append(model.sprites.frontShiny)
-        sprites.append(model.sprites.frontShinyFemale ?? "")
-        sprites.append(model.sprites.backFemale ?? "")
         sprites.append(model.sprites.backShiny)
+        sprites.append(model.sprites.frontFemale ?? "")
+        sprites.append(model.sprites.backFemale ?? "")
+        sprites.append(model.sprites.frontShinyFemale ?? "")
         sprites.append(model.sprites.backShinyFemale ?? "")
-        
         if let type = model.types.first(where: { ($0.slot == 1) })?.type.name, let background = UIColor.ColorString(rawValue: type) {
             entity.background = UIColor(background)
         }
