@@ -39,7 +39,7 @@ class HomePokemonCell: UICollectionViewCell {
             secondLbl.text = item.types.last?.capitalized
         } else {
             firstTypeView.isHidden = false
-            firsttitleLbl.text = item.types.first?.uppercased()
+            firsttitleLbl.text = item.types.first?.capitalized
             secondTypeView.isHidden = true
         }
     

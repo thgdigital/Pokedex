@@ -14,6 +14,7 @@ protocol DetailPokemonPresenterInput {
 
 protocol DetailPokemonPresenterOutput:  class {
     func changeTitle(with name: String)
+    func reloadSections(sections: [Sections])
 }
 
 protocol DetailPokemonInteractorInput {
@@ -21,5 +22,5 @@ protocol DetailPokemonInteractorInput {
 }
 
 protocol DetailPokemonInteractorOutput: class {
-    
+    func resultResquest(entity: PokemonEntity)
 }

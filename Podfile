@@ -8,6 +8,8 @@ target 'Pokedex' do
   # Pods for Pokedex
 pod 'Alamofire', '~> 5.0'
 pod 'SDWebImage', '~> 5.0'
+pod 'ImageSlideshow', '~> 1.8.3'
+pod "ImageSlideshow/SDWebImage"
 
   target 'PokedexTests' do
     inherit! :search_paths

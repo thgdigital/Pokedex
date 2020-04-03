@@ -21,7 +21,8 @@ class DetailPokemonInteractor: DetailPokemonInteractorInput {
             switch response {
                 
             case .success(let value):
-                debugPrint(value)
+                let entity = PokemonEntityMapper.mapping(model: value)
+                self.output?.resultResquest(entity: entity)
             case .failure(let error):
                 debugPrint(error)
             }

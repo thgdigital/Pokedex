@@ -14,6 +14,8 @@ class DetailPokemonPresenter: DetailPokemonPresenterInput {
     let wireframe: DetailPokemonWireframe
     let namePokemon: String
     
+    var sections: [Sections] = []
+    
     init(interactor: DetailPokemonInteractorInput, namePokemon: String, wireframe: DetailPokemonWireframe) {
         self.wireframe = wireframe
         self.interactor = interactor
@@ -27,5 +29,11 @@ class DetailPokemonPresenter: DetailPokemonPresenterInput {
 }
 
 extension DetailPokemonPresenter: DetailPokemonInteractorOutput {
+    
+    func resultResquest(entity: PokemonEntity) {
+        sections = SectionsMapper.make(entity: entity)
+        output?.reloadSections(sections: sections)
+    }
+    
     
 }

@@ -98,13 +98,13 @@ struct VersionGroupDetail: Codable {
 // MARK: - Sprites
 struct Sprites: Codable {
     let backDefault: String
-    let backFemale: JSONNull?
+    let backFemale: String?
     let backShiny: String
-    let backShinyFemale: JSONNull?
+    let backShinyFemale: String?
     let frontDefault: String
-    let frontFemale: JSONNull?
+    let frontFemale: String?
     let frontShiny: String
-    let frontShinyFemale: JSONNull?
+    let frontShinyFemale: String?
 
     enum CodingKeys: String, CodingKey {
         case backDefault = "back_default"
