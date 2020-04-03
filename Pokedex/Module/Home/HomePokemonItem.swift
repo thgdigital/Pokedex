@@ -6,12 +6,14 @@
 //  Copyright © 2020 Thiago Vaz. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class HomePokemonItem {
     var name: String = ""
     var url: URL? = URL(string: "") 
-    var image: URL? = URL(string: "") 
+    var image: URL? = URL(string: "")
+    var types: [String] = []
+    var background: UIColor = .white
 }
 
 

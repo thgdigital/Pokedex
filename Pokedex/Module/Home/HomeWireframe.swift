@@ -23,4 +23,9 @@ class HomeWireframe {
         viewcontroller = homeView
         return homeView
     }
+    
+    func showPokemon(namePokemon: String) {
+        let detailView = DetailPokemonWireframe().makeScreen(name: namePokemon)
+        viewcontroller?.navigationController?.pushViewController(detailView, animated: true)
+    }
 }

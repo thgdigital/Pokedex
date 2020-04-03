@@ -19,19 +19,42 @@ class HomeInteractor: HomeInteractorInput {
     
     var home: HomeEntity?
     
+    var kalos: Kalos?
+    
+    
+    
     init(manager: PokedexManager) {
         self.manager = manager
     }
     
+    fileprivate func dataPokemon(model: HomeModel) {
+        
+        manager.kalosPokemon{ (result) in
+            switch result {
+            case .success(let kalos):
+                self.kalos = kalos
+                self.home = HomeEntityMapper.mappingHome(model: model, kalos: kalos)
+                guard let result = self.home?.results else {
+                    return
+                }
+                self.output?.fetched(results: result)
+            case .failure(let error):
+                debugPrint(error)
+            }
+        }
+    }
+    
+    
+    
     func fetch() {
+        
+        
+        
         manager.fetchHome { (result) in
             switch result {
             case .success(let homeModel):
-                self.home = HomeEntityMapper.mappingHome(model: homeModel)
-                guard let results = self.home?.results else {
-                    return
-                }
-                self.output?.fetched(results: results)
+                self.dataPokemon(model: homeModel)
+                
             case .failure(let error):
                 self.output?.fetchError(width: error)
             }
@@ -57,7 +80,7 @@ class HomeInteractor: HomeInteractorInput {
                     self.shoudPagination = true
                     switch result{
                     case .success(let homeModel):
-                        self.home = HomeEntityMapper.mappingHome(model: homeModel)
+                        self.home = HomeEntityMapper.mappingHome(model: homeModel, kalos: self.kalos ?? [])
                         guard let results = self.home?.results else {
                             return
                         }

@@ -49,7 +49,6 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePokemonCell.identifier, for: indexPath) as! HomePokemonCell
             cell.populate(item: items[indexPath.row])
-            cell.backgroundColor = .white
             cell.shadowDecorate()
             return cell
         }
@@ -60,7 +59,7 @@ extension HomeListView:  UICollectionViewDelegateFlowLayout {
             return .zero
         }
         
-        return CGSize(width: (UIScreen.main.bounds.width / 3) - 5, height: 140)
+        return CGSize(width: (UIScreen.main.bounds.width / 2) - 5, height: 140)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

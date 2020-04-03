@@ -12,4 +12,5 @@ class PokemonHomeEntity: NSObject {
     var name: String = ""
     var url: String = ""
     var image: String = ""
+    var type: [String] = []
 }

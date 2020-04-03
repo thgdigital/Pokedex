@@ -36,7 +36,7 @@ class HomePresenter: HomePresenterInput {
     }
     
     func didSelected(with index: Int) {
-        
+        wireframe.showPokemon(namePokemon: items[index].name.lowercased())
     }
     
     func finish() {
@@ -59,7 +59,7 @@ extension HomePresenter: HomeInteractorOutput {
     
     func fetched(results: [PokemonHomeEntity]) {
         items = results.map({ HomePokemonItemMapper.mapping(entity: $0) })
-        items.append(contentsOf: HomePokemonItemMapper.appendLoading(with: 3))
+        items.append(contentsOf: HomePokemonItemMapper.appendLoading(with: 2))
         output?.fetched(items: items)
     }
     
@@ -69,7 +69,7 @@ extension HomePresenter: HomeInteractorOutput {
         
         
          if let homeCount = self.interactor.home?.count, (homeCount % items.count) != 0 {
-            let appendLoading = HomePokemonItemMapper.appendLoading(with: 3)
+            let appendLoading = HomePokemonItemMapper.appendLoading(with: 2)
            items.append(contentsOf:appendLoading)
         }
         output?.fetched(paginate: items)

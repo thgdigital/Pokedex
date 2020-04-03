@@ -26,6 +26,20 @@ extension UICollectionViewCell {
     }
 }
 
+extension UIView {
+    func shadow() {
+        let radius: CGFloat = 10
+        
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.5
+        layer.masksToBounds = false
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
+        layer.cornerRadius = radius
+    }
+}
+
 extension UICollectionView {
 
   func reloadDataTwiceIfNeeded() {
@@ -92,3 +106,18 @@ extension UICollectionView {
     }
   }
 }
+
+extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        var addedDict = [Element: Bool]()
+
+        return filter {
+            addedDict.updateValue(true, forKey: $0) == nil
+        }
+    }
+
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
+    }
+}
+

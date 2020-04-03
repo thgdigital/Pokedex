@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thiago Vaz. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class HomePokemonItemMapper {
     
@@ -15,6 +15,10 @@ class HomePokemonItemMapper {
         item.image = URL(string: entity.image)
         item.name = entity.name.capitalized
         item.url = URL(string: entity.url)
+        item.types = entity.type
+        if let type = entity.type.first, let background = UIColor.ColorString(rawValue: type) {
+            item.background = UIColor(background)
+        }
         return item
     }
     

@@ -12,18 +12,45 @@ import SDWebImage
 class HomePokemonCell: UICollectionViewCell {
     @IBOutlet weak var pokemonIV: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var firsttitleLbl: UILabel!
+    @IBOutlet weak var secondLbl: UILabel!
+    @IBOutlet weak var firstTypeView: UIView!
+    @IBOutlet weak var secondTypeView: UIView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-//        layer.borderColor = UIColor.gray.cgColor
-//        layer.borderWidth = 1.0
-//        backgroundColor = .clear
+        firstTypeView.layer.cornerRadius = 5
+        firstTypeView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        secondTypeView.layer.cornerRadius = 5
+        secondTypeView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
     }
     
     func populate(item: HomePokemonItem) {
         self.titleLbl.text = item.name
         self.pokemonIV.sd_setImage(with: item.image, completed: nil)
+        backgroundColor = item.background
+        
+        if item.types.count == 2 {
+            firstTypeView.isHidden = false
+            firsttitleLbl.text = item.types.first?.capitalized
+            secondTypeView.isHidden = false
+            secondLbl.text = item.types.last?.capitalized
+        } else {
+            firstTypeView.isHidden = false
+            firsttitleLbl.text = item.types.first?.uppercased()
+            secondTypeView.isHidden = true
+        }
+    
+        
     }
-
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        firsttitleLbl.text = ""
+         firsttitleLbl.text = ""
+        firstTypeView.isHidden = true
+        secondTypeView.isHidden = true
+    }
 }
